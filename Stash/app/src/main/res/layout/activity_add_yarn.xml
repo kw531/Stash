@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
@@ -11,29 +10,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.kati.stash.about">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar"
-        android:layout_alignParentStart="true" />
-
-    <android.support.design.widget.FloatingActionButton
+    <Button
+        android:text="Add Yarn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_input_add"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/fab" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/AddYarn" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/et_add_BrandName"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp" />
 
         <EditText
             android:layout_width="200sp"
@@ -50,7 +50,7 @@
         <EditText
             android:layout_width="200sp"
             android:layout_height="50sp"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/et_add_Fiber"
             android:textSize="24sp"
@@ -113,18 +113,6 @@
             android:layout_alignParentEnd="true" />
 
         <TextView
-            android:text="Total Skeins:"
-            android:layout_width="150dp"
-            android:layout_height="50sp"
-            android:id="@+id/tv_add_BallCount"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
-            android:layout_marginTop="42dp"
-            android:layout_below="@+id/et_add_yardage"
-            android:layout_alignStart="@+id/tv_add_Yardage"
-            android:textAlignment="textEnd" />
-
-        <TextView
             android:layout_height="50sp"
             android:id="@+id/tv_add_Yardage"
             android:textSize="23sp"
@@ -136,16 +124,31 @@
             android:layout_below="@+id/et_add_Color"
             android:layout_alignStart="@+id/tv_add_Color" />
 
-        <EditText
-            android:layout_width="200sp"
+
+
+        <TextView
+            android:text="Total Skeins:"
+            android:layout_width="150dp"
             android:layout_height="50sp"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/et_add_BrandName"
+            android:id="@+id/tv_add_BallCount"
             android:textSize="24sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp" />
+            android:textStyle="normal|bold"
+            android:layout_marginTop="22dp"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/tv_add_Yardage"
+            android:layout_alignStart="@+id/tv_add_Yardage" />
+
+        <TextView
+            android:text="Yarn Name: "
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_add_YarnName"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="6dp"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/tv_add_BrandName"
+            android:layout_alignStart="@+id/tv_add_Fiber" />
 
         <TextView
             android:text="Brand Name: "
@@ -157,18 +160,6 @@
             android:textAlignment="textEnd"
             android:layout_alignTop="@+id/et_add_BrandName"
             android:layout_alignStart="@+id/tv_add_YarnName" />
-
-        <TextView
-            android:text="Yarn Name: "
-            android:layout_width="150sp"
-            android:layout_height="50sp"
-            android:id="@+id/tv_add_YarnName"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
-            android:layout_marginTop="30dp"
-            android:textAlignment="textEnd"
-            android:layout_below="@+id/tv_add_BrandName"
-            android:layout_alignStart="@+id/tv_add_Fiber" />
     </RelativeLayout>
 
 </RelativeLayout>

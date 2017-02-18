@@ -24,36 +24,24 @@ import static android.R.id.list;
 import static android.view.View.Y;
 
 public class MainActivity extends AppCompatActivity {
+    DBHandler myDB = new DBHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DBHandler myDB = new DBHandler(this);
+        myDB.deleteAllYarn();
         myDB.addYarn(new Yarn(1,"Red Heart","Comfy","Red","100% Acrylic",5.3,400.0));
         myDB.addYarn(new Yarn(2,"Baron","Comfy","Blue","100% Acrylic",3,400.0));
         myDB.addYarn(new Yarn(3,"Knit Picks","Lux","Purple","100% Silk",2,50));
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-
-        ArrayList<String> theList = new ArrayList<>();
-
-        Cursor data = myDB.getYarnCount();
-
-        if(data.getCount()==0){
-            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
-        }else{
-            while(data.moveToNext()){
-                theList.add(data.getString(1));
-                ListAdapter listAdapter=new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, theList);
-                listView.setAdapter(listAdapter);
-            }
-        }
-
-        myDB.deleteAllYarn();
-
+        refreshDB();
     }
 
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        refreshDB();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void refreshDB(){
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+
+        ArrayList<String> theList = new ArrayList<>();
+
+        Cursor data = myDB.getCursor();
+        Toast.makeText(this, "count:"+data.getCount(),Toast.LENGTH_LONG).show();
+        if(data.getCount()==0){
+            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
+        }else{
+            while(data.moveToNext()){
+                theList.add(data.getString(1));
+                ListAdapter listAdapter=new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, theList);
+                listView.setAdapter(listAdapter);
+            }
         }
     }
 

@@ -86,7 +86,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addYarn(Yarn yarn) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
+        values.put(KEY_ID,yarn.getID());
         values.put(KEY_BRAND_NAME, yarn.getBrandName()); // Yarn Brand Name
         db.insert(TABLE_NAME, null, values);
         values.put(KEY_YARN_NAME, yarn.getYarnName()); // Yarn Name
@@ -99,7 +99,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         values.put(KEY_YARDAGE, yarn.getYardage()); // Yarn yardage
         db.insert(TABLE_NAME, null, values);
-       // db.close(); // Closing database connection
     }
 
     // Getting one yarn
@@ -150,7 +149,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Getting yarn Count
-    public Cursor getYarnCount() {
+    public Cursor getCursor() {
         String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -192,6 +191,13 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         db.close();
+    }
+    public int findLastID() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        // return count
+        return cursor.getCount();
     }
 
 }
