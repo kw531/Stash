@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical" android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_yv_BrandName"
+           android:textSize="36sp"
+           android:layout_alignParentTop="true"
+           android:layout_alignParentStart="true"
+           android:layout_marginTop="6dp"
+           android:textAlignment="textStart" />
+
+    <TextView      android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/tv_yv_YarnName"
+       android:textSize="36sp"
+           android:layout_marginTop="7dp"
+           android:layout_below="@+id/tv_yv_BrandName"
+           android:layout_alignParentStart="true"
+           android:textAlignment="textStart" />
+
+   <TextView
+           android:text="Fiber:"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_yv_FiberLabel"
+           android:textSize="24sp"
+           android:layout_below="@+id/tv_yv_ColorLabel"
+           android:layout_alignParentStart="true"
+           android:layout_marginTop="24dp" />
+
+       <TextView
+           android:text="Yards per Skein:"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_yv_YardageLabel"
+           android:textSize="24sp"
+           android:layout_marginTop="29dp"
+           android:layout_below="@+id/tv_yv_FiberLabel"
+           android:layout_alignParentStart="true" />
+
+       <TextView
+           android:text="Skeins Available:"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_yv_BallLabel"
+           android:textSize="24sp"
+           android:layout_marginTop="36dp"
+           android:layout_below="@+id/tv_yv_YardageLabel"
+           android:layout_width="wrap_content" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/tv_yv_Color"
+       android:textSize="24sp"
+       android:text="ColorGoesHere"
+       android:layout_alignBaseline="@+id/tv_yv_ColorLabel"
+       android:layout_alignBottom="@+id/tv_yv_ColorLabel"
+       android:layout_toEndOf="@+id/tv_yv_ColorLabel"
+       android:layout_marginStart="20dp" />
+
+   <TextView
+       android:text="FiberGoesHere"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_above="@+id/tv_yv_YardageLabel"
+       android:layout_alignStart="@+id/tv_yv_Color"
+       android:id="@+id/tv_yv_Fiber"
+       android:textSize="24sp" />
+
+   <TextView
+       android:text="SkeinsHere"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/tv_yv_SkeinsAvail"
+       android:textSize="24sp"
+       android:layout_alignBaseline="@+id/tv_yv_BallLabel"
+       android:layout_alignBottom="@+id/tv_yv_BallLabel"
+       android:layout_toEndOf="@+id/tv_yv_BallLabel"
+       android:layout_marginStart="16dp" />
+
+   <TextView
+       android:text="Total Yards Available:"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="32dp"
+       android:id="@+id/tv_yv_TotalYardsLabel"
+       android:textSize="24sp"
+       android:layout_below="@+id/tv_yv_BallLabel"
+       android:layout_alignParentStart="true" />
+
+   <TextView
+       android:text="YardsHere"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/tv_yv_Yardage"
+       android:textSize="24sp"
+       android:layout_above="@+id/tv_yv_BallLabel"
+       android:layout_toEndOf="@+id/tv_yv_BallLabel" />
+
+    <TextView
+       android:text="Color:"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/tv_yv_ColorLabel"
+       android:textSize="24sp"
+       android:layout_marginTop="18dp"
+       android:layout_below="@+id/tv_yv_YarnName"
+       android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="TotYards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_yv_TotalYards"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/tv_yv_TotalYardsLabel"
+        android:layout_alignBottom="@+id/tv_yv_TotalYardsLabel"
+        android:layout_toEndOf="@+id/tv_yv_Yardage"
+        android:layout_marginStart="6dp" />
+
+</RelativeLayout>

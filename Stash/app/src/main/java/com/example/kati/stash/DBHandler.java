@@ -42,14 +42,14 @@ import static android.R.attr.y;
 public class DBHandler extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     // Database Name
     private static final String DATABASE_NAME = "yarnInfo.db";
 
     // Contacts table name
     private static final String TABLE_NAME = "yarns";
     // Shops Table Columns names
-    private static final String KEY_ID = "id";
+    private static final String KEY_ID = "_id";
     private static final String KEY_BRAND_NAME = "brand_name";
     private static final String KEY_YARN_NAME = "yarn_name";
     private static final String KEY_COLOR = "color";
@@ -64,12 +64,12 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_BRAND_NAME + " TEXT,"
-                + KEY_YARN_NAME + " TEXT"
-                + KEY_COLOR + " TEXT"
-                + KEY_FIBER + " TEXT"
-                + KEY_BALLS_AVAILABLE + " DOUBLE"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_BRAND_NAME + " TEXT, "
+                + KEY_YARN_NAME + " TEXT, "
+                + KEY_COLOR + " TEXT, "
+                + KEY_FIBER + " TEXT, "
+                + KEY_BALLS_AVAILABLE + " DOUBLE, "
                 + KEY_YARDAGE + " DOUBLE" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -88,15 +88,10 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID,yarn.getID());
         values.put(KEY_BRAND_NAME, yarn.getBrandName()); // Yarn Brand Name
-        db.insert(TABLE_NAME, null, values);
         values.put(KEY_YARN_NAME, yarn.getYarnName()); // Yarn Name
-        db.insert(TABLE_NAME, null, values);
         values.put(KEY_COLOR, yarn.getColor()); // Yarn Color
-        db.insert(TABLE_NAME, null, values);
         values.put(KEY_FIBER, yarn.getFiber()); // Yarn Fiber
-        db.insert(TABLE_NAME, null, values);
         values.put(KEY_BALLS_AVAILABLE, yarn.getBallsAvailable()); // Balls Available
-        db.insert(TABLE_NAME, null, values);
         values.put(KEY_YARDAGE, yarn.getYardage()); // Yarn yardage
         db.insert(TABLE_NAME, null, values);
     }
