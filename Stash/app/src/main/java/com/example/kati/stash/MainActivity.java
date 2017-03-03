@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -37,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
     DBHandler myDB = new DBHandler(this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        registerForContextMenu(listView);
 
         myDB.deleteAllYarn();
         myDB.addYarn(new Yarn(0, "Red Heart", "Comfy", "Red", "100% Acrylic", 5.3, 400.0));
@@ -61,24 +66,31 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection in the main menu
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.yarn_longclick_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Context menu button has been clicked
         switch (item.getItemId()) {
-            case R.id.menu_about:
-                Intent intent = new Intent(this, about.class);
-                startActivity(intent);
+            case R.id.lc_Edit:
+                Toast.makeText(this, "EDIT GOES HERE", Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.menu_add_item:
-                Intent addIntent = new Intent(this, AddYarnActivity.class);
-                startActivity(addIntent);
-                return true;
+            case R.id.lc_Delete:
+                Toast.makeText(this, "DELETE GOES HERE", Toast.LENGTH_LONG).show();
+            return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onContextItemSelected(item);
         }
     }
 
+
+
     public void refreshDB() {
-        final ListView listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> theList = new ArrayList<>();
         final Cursor data = myDB.getCursor();
         //Toast.makeText(this, "count:" + myDB.findLastID(), Toast.LENGTH_LONG).show();
