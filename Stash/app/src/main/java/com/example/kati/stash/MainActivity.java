@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity{
             case R.id.lc_Delete:
                 removeYarn(yarnID);
                 refreshDB();
-                //Toast.makeText(this, "Yarn Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Yarn Deleted", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity{
         ArrayList<String> theList = new ArrayList<>();
 
         final Cursor data = myDB.getCursor();
-        //Toast.makeText(this, "count:" + myDB.findLastID(), Toast.LENGTH_LONG).show();
 
         if (data.getCount() == 0) {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
