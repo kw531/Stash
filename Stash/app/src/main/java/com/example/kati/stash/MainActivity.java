@@ -20,7 +20,11 @@ import android.app.ListActivity;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ListIterator;
 
+import static android.R.attr.y;
+import static android.R.id.list;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
@@ -87,13 +91,13 @@ public class MainActivity extends AppCompatActivity{
             case R.id.lc_Delete:
                 removeYarn(yarnID);
                 refreshDB();
-                Toast.makeText(this, "Yarn Deleted", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Yarn Deleted", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
-    //Hashtable<Integer, String> yarnTable = new Hashtable<>();
+
     public void refreshDB() {
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> theList = new ArrayList<>();
@@ -103,9 +107,11 @@ public class MainActivity extends AppCompatActivity{
 
         if (data.getCount() == 0) {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
+            theList.add("No yarns in inventory! Add some.");
+            ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, theList);
+            listView.setAdapter(listAdapter);
         } else {
             while (data.moveToNext()) {
-                //yarnTable.put(data.getInt(0),data.getString(2));
                 theList.add(data.getString(1) + " - " + data.getString(2) + " - " + data.getString(3));
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, theList);
                 listView.setAdapter(listAdapter);
@@ -129,6 +135,16 @@ public class MainActivity extends AppCompatActivity{
 
     public void removeYarn(int ID){
         myDB.deleteYarn(myDB.getYarn(ID));
+        fixRemovedID(ID);
+    }
+
+    public void fixRemovedID(int removedID){
+        for (int i=removedID+1; i<=myDB.findLastID(); i++) {
+            Yarn temp=myDB.getYarn(i);
+            myDB.deleteYarn(myDB.getYarn(i));
+            temp.setId(i-1);
+            myDB.addYarn(temp);
+            }
     }
 }
 
