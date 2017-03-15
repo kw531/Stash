@@ -2,7 +2,7 @@ package com.example.kati.stash;
 
 /**
  * The class which holds the information for each yarn type
- * Created by Kati on 2/17/2017.
+ * Created by Kati on 2/17/2017
  */
 
 public class Yarn {

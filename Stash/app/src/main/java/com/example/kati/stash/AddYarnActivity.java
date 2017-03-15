@@ -1,5 +1,9 @@
 package com.example.kati.stash;
 
+/**
+ * The activity where the user adds a new yarn
+ */
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;

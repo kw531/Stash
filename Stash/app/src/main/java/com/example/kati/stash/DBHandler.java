@@ -3,7 +3,7 @@ package com.example.kati.stash;
 /**
  * Created by Kati on 2/17/2017.
  * +--------------------+-----------+------+
- * |   Field            |  Type     |  Key |
+ * |  Columns           |  Type     |  Key |
  * +--------------------+-----------+------+
  * |   id               |  INT      |  PRI |
  * +--------------------+-----------+------+

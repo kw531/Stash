@@ -1,5 +1,10 @@
 package com.example.kati.stash;
 
+/**
+ * The about activity, currently very empty
+ */
+
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
