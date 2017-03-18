@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.kati.stash.about">
+
+    <Button
+        android:text="Edit Yarn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/EditYarn" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/et_ey_BrandName"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp" />
+
+        <EditText
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/et_ey_YarnName"
+            android:textSize="24sp"
+            android:layout_alignBottom="@+id/tv_ey_YarnName"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/tv_ey_YarnName"
+            android:layout_alignStart="@+id/et_ey_BrandName" />
+
+        <EditText
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/et_ey_Fiber"
+            android:textSize="24sp"
+            android:layout_alignTop="@+id/tv_ey_Fiber"
+            android:layout_toEndOf="@+id/tv_ey_Fiber"
+            android:layout_alignStart="@+id/et_ey_YarnName" />
+
+        <EditText
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/et_ey_Color"
+            android:layout_alignTop="@+id/tv_ey_Color"
+            android:layout_alignStart="@+id/et_ey_Fiber" />
+
+        <TextView
+            android:text="Color: "
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_Color"
+            android:textStyle="normal|bold"
+            android:textSize="24sp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="36dp"
+            android:layout_below="@+id/et_ey_Fiber"
+            android:layout_alignParentStart="true"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:text="Fiber Type:"
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_Fiber"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="42dp"
+            android:layout_below="@+id/tv_ey_YarnName"
+            android:layout_alignStart="@+id/tv_ey_Color"
+            android:textAlignment="textEnd" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="50sp"
+            android:inputType="number|numberDecimal"
+            android:ems="10"
+            android:id="@+id/et_ey_yardage"
+            android:textSize="24sp"
+            android:layout_alignTop="@+id/tv_ey_Yardage"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="50sp"
+            android:inputType="number|numberDecimal"
+            android:ems="10"
+            android:id="@+id/et_ey_TotalBalls"
+            android:textSize="24sp"
+            android:layout_alignTop="@+id/tv_ey_BallCount"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_Yardage"
+            android:textSize="23sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="38dp"
+            android:text="Yards per ball:"
+            android:layout_width="150dp"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/et_ey_Color"
+            android:layout_alignStart="@+id/tv_ey_Color" />
+
+
+
+        <TextView
+            android:text="Total Skeins:"
+            android:layout_width="150dp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_BallCount"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="22dp"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/tv_ey_Yardage"
+            android:layout_alignStart="@+id/tv_ey_Yardage" />
+
+        <TextView
+            android:text="Yarn Name: "
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_YarnName"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="6dp"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/tv_ey_BrandName"
+            android:layout_alignStart="@+id/tv_ey_Fiber" />
+
+        <TextView
+            android:text="Brand Name: "
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:id="@+id/tv_ey_BrandName"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textAlignment="textEnd"
+            android:layout_alignTop="@+id/et_ey_BrandName"
+            android:layout_alignStart="@+id/tv_ey_YarnName" />
+    </RelativeLayout>
+
+</RelativeLayout>

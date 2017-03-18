@@ -70,8 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.lc_Edit:
-                //Placeholder until I create this activity.
-                Toast.makeText(this, "EDIT GOES HERE", Toast.LENGTH_LONG).show();
+                // Sends the intent to the listener in the Edit Yarn Activity
+                Intent intent = new Intent(MainActivity.this, EditYarnActivity.class);
+                int rowID = yarnID;
+                intent.putExtra("key", rowID);
+                startActivity(intent);
+                //Toast.makeText(this, "EDIT GOES HERE", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.lc_Delete:
                 removeYarn(yarnID);
