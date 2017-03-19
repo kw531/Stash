@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.start;
+import static android.R.attr.y;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,8 +53,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.sort_menu, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection in the main menu
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                Intent aboutIntent = new Intent(this, about.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.menu_add_item:
+                Intent addIntent = new Intent(this, AddYarnActivity.class);
+                startActivity(addIntent);
+                return true;
+            case R.id.sort_brand_AtoZ:
+                sortByBrand();
+                refreshDB();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -59,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.yarn_longclick_menu, menu);
     }
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -123,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void removeYarn(int ID) {
         // Deletes a yarn from the database
         myDB.deleteYarn(myDB.getYarn(ID));
@@ -137,6 +160,31 @@ public class MainActivity extends AppCompatActivity {
             myDB.deleteYarn(myDB.getYarn(i));
             temp.setId(i - 1);
             myDB.addYarn(temp);
+        }
+    }
+
+    public void sortByBrand(){
+        boolean swapFlag=true;
+        while(swapFlag) {
+            swapFlag=false;
+            for (int i = 0; i < myDB.findLastID()-1; i++) {
+                if(myDB.getYarn(i+1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0){
+                    // If the next yarn has a lower letter than the current, swap
+                    Yarn temp = myDB.getYarn(i);
+                    Yarn temp2 = myDB.getYarn(i + 1);
+
+                    myDB.deleteYarn(temp);
+                    myDB.deleteYarn(temp2);
+
+                    temp.setId(i + 1); // Swap the IDs
+                    temp2.setId(i);
+
+                    myDB.addYarn(temp);
+                    myDB.addYarn(temp2);
+
+                    swapFlag=true;
+                }
+            }
         }
     }
 }

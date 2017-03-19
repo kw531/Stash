@@ -43,7 +43,7 @@ public class AddYarnActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(brandName.length()!= 0 && fiber.length()!= 0 && color.length()!= 0 &&
                         yarnName.length()!= 0 && balls.length()!= 0 ) {
-                    db.addYarn(new Yarn(db.findLastID() + 1,
+                    db.addYarn(new Yarn(db.findLastID(),
                             brandName.getText().toString(),
                             yarnName.getText().toString(),
                             color.getText().toString(),
