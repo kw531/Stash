@@ -34,15 +34,12 @@ public class EditYarnActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         int rowID = -99; // Default bad value
 
-        if (extras != null) {
-            rowID = extras.getInt("key"); // get the id from the intent
-        }
+        if (extras==null) throw new AssertionError("Null value in edit yarn intent");
 
-        if (rowID == -99) { // For development purposes
-            Toast.makeText(getBaseContext(), "NOOOOOOO", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getBaseContext(), "ID rec: " + rowID, Toast.LENGTH_LONG).show();
-        }
+        rowID = extras.getInt("key"); // get the id from the intent
+
+        if (rowID==-99) throw new AssertionError("Bad value in edit yarn row ID");
+
         final int retrievedID = rowID;
         Yarn yarn = myDB.getYarn(rowID);
 

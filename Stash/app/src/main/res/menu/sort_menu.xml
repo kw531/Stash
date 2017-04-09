@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="https://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item android:title="Sort by Brand Name: A to Z"
         android:id="@+id/sort_brand_AtoZ" />
+    <item android:title="Sort by Brand Name: Z to A"
+        android:id="@+id/sort_brand_ZtoA" />
+    <item android:title="Sort by Yarn Name: A to Z"
+        android:id="@+id/sort_name_AtoZ" />
+    <item android:title="Sort by Yarn Name: Z to A"
+        android:id="@+id/sort_name_ZtoA" />
+    <item android:title="Sort by # of Skeins: Ascending"
+        android:id="@+id/sort_balls_AtoZ" />
+    <item android:title="Sort by # of Skeins: Descending"
+        android:id="@+id/sort_balls_ZtoA" />
 </menu>

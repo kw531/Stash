@@ -43,14 +43,16 @@ public class AddYarnActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(brandName.length()!= 0 && fiber.length()!= 0 && color.length()!= 0 &&
                         yarnName.length()!= 0 && balls.length()!= 0 ) {
-                    db.addYarn(new Yarn(db.findLastID(),
+                    Yarn entry=new Yarn(db.findLastID(),
                             brandName.getText().toString(),
                             yarnName.getText().toString(),
                             color.getText().toString(),
                             fiber.getText().toString(),
                             Double.parseDouble(balls.getText().toString()),
-                            Double.parseDouble(balls.getText().toString())));
+                            Double.parseDouble(balls.getText().toString()));
+                    db.addYarn(entry);
                     Toast.makeText(AddYarnActivity.this, "Successfully Added",Toast.LENGTH_LONG).show();
+                    checkEntry(entry);
                     finish();
                 }else{
                     Toast.makeText(AddYarnActivity.this, "You're missing something...",Toast.LENGTH_LONG).show();
@@ -58,4 +60,11 @@ public class AddYarnActivity extends AppCompatActivity {
             }
         });
     }
+    void checkEntry(Yarn test){
+        if (test.getYarnName()==null) throw new AssertionError("Yarn Name was null");
+        if (test.getBrandName()==null) throw new AssertionError("Brand name was null");
+        if (test.getColor()==null) throw new AssertionError("Color was null");
+        if (test.getFiber()==null) throw new AssertionError("Fiber was null");
+    }
 }
+

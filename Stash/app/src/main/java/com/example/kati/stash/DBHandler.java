@@ -187,10 +187,10 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, null, null);
         db.close();
     }
+
     public int findLastID() {
-        String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         // return count
         return cursor.getCount();
     }

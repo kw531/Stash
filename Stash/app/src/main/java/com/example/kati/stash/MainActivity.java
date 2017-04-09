@@ -19,8 +19,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.R.attr.start;
-import static android.R.attr.y;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Displays the menu options
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         inflater.inflate(R.menu.sort_menu, menu);
@@ -71,8 +70,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(addIntent);
                 return true;
             case R.id.sort_brand_AtoZ:
-                sortByBrand();
-                refreshDB();
+                sort("azbrand");
+                return true;
+            case R.id.sort_name_AtoZ:
+                sort("azname");
+                return true;
+            case R.id.sort_brand_ZtoA:
+                sort("zabrand");
+                return true;
+            case R.id.sort_name_ZtoA:
+                sort("zaname");
+                return true;
+            case R.id.sort_balls_AtoZ:
+                sort("azballs");
+                return true;
+            case R.id.sort_balls_ZtoA:
+                sort("zaballs");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        // Creates the long-click menu
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.yarn_longclick_menu, menu);
     }
@@ -99,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 int rowID = yarnID;
                 intent.putExtra("key", rowID);
                 startActivity(intent);
-                //Toast.makeText(this, "EDIT GOES HERE", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.lc_Delete:
                 removeYarn(yarnID);
@@ -136,11 +149,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Displays information about the yarn on click
                 int rowID = (int) parent.getItemIdAtPosition(position);
-                // Toast is a thing for development only, will be removed in final version
-                Toast.makeText(getBaseContext(), "ID sent: " + rowID + "", Toast.LENGTH_LONG).show();
 
+                if (rowID==-99) throw new AssertionError("Bad value in yarn view row ID");
                 Intent intent = new Intent(MainActivity.this, yarnView.class);
                 intent.putExtra("key", rowID);
+
                 startActivity(intent);
             }
         });
@@ -163,12 +176,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sortByBrand(){
-        boolean swapFlag=true;
-        while(swapFlag) {
-            swapFlag=false;
-            for (int i = 0; i < myDB.findLastID()-1; i++) {
-                if(myDB.getYarn(i+1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0){
+    public void sort(final String type) {
+        boolean swapFlag = true;
+        while (swapFlag) {
+            swapFlag = false;
+            for (int i = 0; i < myDB.findLastID() - 1; i++) {
+                boolean comp = false;
+                switch (type) {
+                    case "azbrand":
+                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0;
+                        break;
+                    case "azname":
+                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())<0;
+                        break;
+                    case "zabrand":
+                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())>0;
+                        break;
+                    case "zaname":
+                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())>0;
+                        break;
+                    case "azballs":
+                        comp = myDB.getYarn(i + 1).getBallsAvailable()>myDB.getYarn(i).getBallsAvailable();
+                        break;
+                    case "zaballs":
+                        comp = myDB.getYarn(i + 1).getBallsAvailable()<myDB.getYarn(i).getBallsAvailable();
+                        break;
+                    default:
+                        comp = false;
+                        break;
+                }
+                if (comp) {
                     // If the next yarn has a lower letter than the current, swap
                     Yarn temp = myDB.getYarn(i);
                     Yarn temp2 = myDB.getYarn(i + 1);
@@ -182,10 +219,10 @@ public class MainActivity extends AppCompatActivity {
                     myDB.addYarn(temp);
                     myDB.addYarn(temp2);
 
-                    swapFlag=true;
+                    swapFlag = true;
                 }
             }
         }
+        refreshDB();
     }
 }
-
