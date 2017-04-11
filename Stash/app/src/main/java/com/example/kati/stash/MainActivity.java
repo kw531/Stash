@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,25 +14,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.Adapter;
 import android.widget.Toast;
-import android.app.ListActivity;
 
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ListIterator;
-
-import static android.R.attr.y;
-import static android.R.id.list;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
-public class MainActivity extends AppCompatActivity{
+
+public class MainActivity extends AppCompatActivity {
 
     DBHandler myDB = new DBHandler(this);
-    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
         registerForContextMenu(listView);
         listView.setLongClickable(true);
 
+        // These are for testing purposes only, will be removed in final version
         myDB.deleteAllYarn();
         myDB.addYarn(new Yarn(0, "Red Heart", "Comfy", "Red", "100% Acrylic", 5.3, 400.0));
         myDB.addYarn(new Yarn(1, "Baron", "Baby", "Blue", "100% Acrylic", 3, 400.0));
@@ -49,44 +42,77 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-/*    @Override
-    public boolean onItemLongClick(AdapterView<?> l, View v,
-                                   final int position, long id) {
-
-        yarnID=position;
-        Toast.makeText(this, "long clicked pos: " + position, Toast.LENGTH_LONG).show();
-
-        return true;
-    }*/
-
     @Override
     public void onRestart() {
+        // This updates the displayed list anytime this activity is restarted (e.g. a new yarn is added)
         super.onRestart();
         refreshDB();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        // Displays the menu options
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.sort_menu, menu);
         return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection in the main menu
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                Intent aboutIntent = new Intent(this, about.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.menu_add_item:
+                Intent addIntent = new Intent(this, AddYarnActivity.class);
+                startActivity(addIntent);
+                return true;
+            case R.id.sort_brand_AtoZ:
+                sort("azbrand");
+                return true;
+            case R.id.sort_name_AtoZ:
+                sort("azname");
+                return true;
+            case R.id.sort_brand_ZtoA:
+                sort("zabrand");
+                return true;
+            case R.id.sort_name_ZtoA:
+                sort("zaname");
+                return true;
+            case R.id.sort_balls_AtoZ:
+                sort("azballs");
+                return true;
+            case R.id.sort_balls_ZtoA:
+                sort("zaballs");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
-    public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        // Creates the long-click menu
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.yarn_longclick_menu, menu);
     }
 
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // Handles the context menu on a long click on a yarn
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-        int yarnID=info.position;
+        int yarnID = info.position;
 
         switch (item.getItemId()) {
             case R.id.lc_Edit:
-                Toast.makeText(this, "EDIT GOES HERE", Toast.LENGTH_LONG).show();
+                // Sends the intent to the listener in the Edit Yarn Activity
+                Intent intent = new Intent(MainActivity.this, EditYarnActivity.class);
+                int rowID = yarnID;
+                intent.putExtra("key", rowID);
+                startActivity(intent);
                 return true;
             case R.id.lc_Delete:
                 removeYarn(yarnID);
@@ -99,6 +125,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void refreshDB() {
+        // Handles the display of the inventory list
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> theList = new ArrayList<>();
 
@@ -120,30 +147,82 @@ public class MainActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int rowID=(int)parent.getItemIdAtPosition(position);
-                Toast.makeText(getBaseContext(), "ID sent: " + rowID  + "", Toast.LENGTH_LONG).show();
+                // Displays information about the yarn on click
+                int rowID = (int) parent.getItemIdAtPosition(position);
 
+                if (rowID==-99) throw new AssertionError("Bad value in yarn view row ID");
                 Intent intent = new Intent(MainActivity.this, yarnView.class);
-                intent.putExtra("key",rowID);
+                intent.putExtra("key", rowID);
+
                 startActivity(intent);
             }
         });
 
     }
 
-
-    public void removeYarn(int ID){
+    public void removeYarn(int ID) {
+        // Deletes a yarn from the database
         myDB.deleteYarn(myDB.getYarn(ID));
-        fixRemovedID(ID);
+        correctKeys(ID);
     }
 
-    public void fixRemovedID(int removedID){
-        for (int i=removedID+1; i<=myDB.findLastID(); i++) {
-            Yarn temp=myDB.getYarn(i);
+    public void correctKeys(int removedID) {
+        // Updates the primary key in the database
+        for (int i = removedID + 1; i <= myDB.findLastID(); i++) {
+            Yarn temp = myDB.getYarn(i);
             myDB.deleteYarn(myDB.getYarn(i));
-            temp.setId(i-1);
+            temp.setId(i - 1);
             myDB.addYarn(temp);
+        }
+    }
+
+    public void sort(final String type) {
+        boolean swapFlag = true;
+        while (swapFlag) {
+            swapFlag = false;
+            for (int i = 0; i < myDB.findLastID() - 1; i++) {
+                boolean comp = false;
+                switch (type) {
+                    case "azbrand":
+                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0;
+                        break;
+                    case "azname":
+                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())<0;
+                        break;
+                    case "zabrand":
+                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())>0;
+                        break;
+                    case "zaname":
+                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())>0;
+                        break;
+                    case "azballs":
+                        comp = myDB.getYarn(i + 1).getBallsAvailable()>myDB.getYarn(i).getBallsAvailable();
+                        break;
+                    case "zaballs":
+                        comp = myDB.getYarn(i + 1).getBallsAvailable()<myDB.getYarn(i).getBallsAvailable();
+                        break;
+                    default:
+                        comp = false;
+                        break;
+                }
+                if (comp) {
+                    // If the next yarn has a lower letter than the current, swap
+                    Yarn temp = myDB.getYarn(i);
+                    Yarn temp2 = myDB.getYarn(i + 1);
+
+                    myDB.deleteYarn(temp);
+                    myDB.deleteYarn(temp2);
+
+                    temp.setId(i + 1); // Swap the IDs
+                    temp2.setId(i);
+
+                    myDB.addYarn(temp);
+                    myDB.addYarn(temp2);
+
+                    swapFlag = true;
+                }
             }
+        }
+        refreshDB();
     }
 }
-

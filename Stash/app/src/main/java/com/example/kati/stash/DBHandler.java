@@ -3,7 +3,7 @@ package com.example.kati.stash;
 /**
  * Created by Kati on 2/17/2017.
  * +--------------------+-----------+------+
- * |   Field            |  Type     |  Key |
+ * |  Columns           |  Type     |  Key |
  * +--------------------+-----------+------+
  * |   id               |  INT      |  PRI |
  * +--------------------+-----------+------+
@@ -115,7 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return yarn;
     }
 
-    // Getting All Yarns
+/*    // Getting All Yarns
     public List<Yarn> getAllYarns() {
         List<Yarn> yarnList = new ArrayList<Yarn>();
         // Select All Query
@@ -141,7 +141,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         // return yarn list
         return yarnList;
-    }
+    }*/
 
     // Getting yarn Count
     public Cursor getCursor() {
@@ -152,7 +152,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Updating a yarn
+/*    // Updating a yarn
     public int updateYarn(Yarn yarn) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -165,7 +165,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_NAME, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(yarn.getID())});
-    }
+    }*/
 
 
     // Deleting a yarn
@@ -176,21 +176,21 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Cursor getListContents() {
+/*    public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return data;
-    }
+    }*/
 
     public void deleteAllYarn(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         db.close();
     }
+
     public int findLastID() {
-        String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         // return count
         return cursor.getCount();
     }
