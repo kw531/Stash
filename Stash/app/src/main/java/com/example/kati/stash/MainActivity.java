@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         refreshDB();
     }
 
-
     @Override
     public void onRestart() {
         // This updates the displayed list anytime this activity is restarted (e.g. a new yarn is added)
@@ -92,24 +91,22 @@ public class MainActivity extends AppCompatActivity {
         // Handles the context menu on a long click on a yarn
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-        int yarnID = info.position;
-
         switch (item.getItemId()) {
             case R.id.lc_Edit:
                 // Sends the intent to the listener in the Edit Yarn Activity
                 Intent intent = new Intent(MainActivity.this, EditYarnActivity.class);
-                int rowID = yarnID;
-                intent.putExtra("key", rowID);
+                intent.putExtra("key", info.position);
                 startActivity(intent);
-                return true;
+                break;
             case R.id.lc_Delete:
-                removeYarn(yarnID);
-                refreshDB();
-                Toast.makeText(this, "Yarn Deleted", Toast.LENGTH_LONG).show();
-                return true;
+                removeYarn(info.position);
+                speak("Yarn Deleted!");
+                break;
             default:
                 return super.onContextItemSelected(item);
         }
+        refreshDB();
+        return true;
     }
 
     private void refreshDB() {
@@ -120,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         final Cursor data = myDB.getCursor();
 
         if (data.getCount() == 0) {
-            Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
+            speak("There are no contents in this list!");
             theList.add("No yarns in inventory! Add some.");
             ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, theList);
             listView.setAdapter(listAdapter);
@@ -169,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         while (swapFlag) {
             swapFlag = false;
             for (int i = 0; i < myDB.findLastID() - 1; i++) {
-                boolean comp = false;
+                boolean comp;
                 switch (type) {
                     case "azbrand": comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0; break;
                     case "azname": comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())<0; break;
@@ -200,5 +197,9 @@ public class MainActivity extends AppCompatActivity {
 
         myDB.addYarn(temp);
         myDB.addYarn(temp2);
+    }
+
+    private void speak(final String say){
+        Toast.makeText(this, say, Toast.LENGTH_LONG).show();
     }
 }
