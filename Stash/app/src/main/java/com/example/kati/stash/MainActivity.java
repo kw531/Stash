@@ -69,26 +69,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent addIntent = new Intent(this, AddYarnActivity.class);
                 startActivity(addIntent);
                 return true;
-            case R.id.sort_brand_AtoZ:
-                sort("azbrand");
-                return true;
-            case R.id.sort_name_AtoZ:
-                sort("azname");
-                return true;
-            case R.id.sort_brand_ZtoA:
-                sort("zabrand");
-                return true;
-            case R.id.sort_name_ZtoA:
-                sort("zaname");
-                return true;
-            case R.id.sort_balls_AtoZ:
-                sort("azballs");
-                return true;
-            case R.id.sort_balls_ZtoA:
-                sort("zaballs");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+
+            case R.id.sort_brand_AtoZ: sort("azbrand"); return true;
+            case R.id.sort_name_AtoZ: sort("azname"); return true;
+            case R.id.sort_brand_ZtoA: sort("zabrand"); return true;
+            case R.id.sort_name_ZtoA: sort("zaname"); return true;
+            case R.id.sort_balls_AtoZ: sort("azballs"); return true;
+            case R.id.sort_balls_ZtoA: sort("zaballs"); return true;
+            default: return super.onOptionsItemSelected(item);
         }
     }
 
@@ -124,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshDB() {
+    private void refreshDB() {
         // Handles the display of the inventory list
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> theList = new ArrayList<>();
@@ -160,13 +148,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void removeYarn(int ID) {
+    private void removeYarn(int ID) {
         // Deletes a yarn from the database
         myDB.deleteYarn(myDB.getYarn(ID));
         correctKeys(ID);
     }
 
-    public void correctKeys(int removedID) {
+    private void correctKeys(int removedID) {
         // Updates the primary key in the database
         for (int i = removedID + 1; i <= myDB.findLastID(); i++) {
             Yarn temp = myDB.getYarn(i);
@@ -176,53 +164,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sort(final String type) {
+    private void sort(final String type) {
         boolean swapFlag = true;
         while (swapFlag) {
             swapFlag = false;
             for (int i = 0; i < myDB.findLastID() - 1; i++) {
                 boolean comp = false;
                 switch (type) {
-                    case "azbrand":
-                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0;
-                        break;
-                    case "azname":
-                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())<0;
-                        break;
-                    case "zabrand":
-                        comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())>0;
-                        break;
-                    case "zaname":
-                        comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())>0;
-                        break;
-                    case "azballs":
-                        comp = myDB.getYarn(i + 1).getBallsAvailable()>myDB.getYarn(i).getBallsAvailable();
-                        break;
-                    case "zaballs":
-                        comp = myDB.getYarn(i + 1).getBallsAvailable()<myDB.getYarn(i).getBallsAvailable();
-                        break;
-                    default:
-                        comp = false;
-                        break;
+                    case "azbrand": comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())<0; break;
+                    case "azname": comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())<0; break;
+                    case "zabrand": comp = myDB.getYarn(i + 1).getBrandName().compareTo(myDB.getYarn(i).getBrandName())>0; break;
+                    case "zaname": comp = myDB.getYarn(i + 1).getYarnName().compareTo(myDB.getYarn(i).getYarnName())>0; break;
+                    case "azballs": comp = myDB.getYarn(i + 1).getBallsAvailable()>myDB.getYarn(i).getBallsAvailable(); break;
+                    case "zaballs": comp = myDB.getYarn(i + 1).getBallsAvailable()<myDB.getYarn(i).getBallsAvailable(); break;
+                    default: comp = false; break;
                 }
                 if (comp) {
-                    // If the next yarn has a lower letter than the current, swap
-                    Yarn temp = myDB.getYarn(i);
-                    Yarn temp2 = myDB.getYarn(i + 1);
-
-                    myDB.deleteYarn(temp);
-                    myDB.deleteYarn(temp2);
-
-                    temp.setId(i + 1); // Swap the IDs
-                    temp2.setId(i);
-
-                    myDB.addYarn(temp);
-                    myDB.addYarn(temp2);
-
+                    swap(i);
                     swapFlag = true;
                 }
             }
         }
         refreshDB();
+    }
+
+    private void swap(int i){
+        Yarn temp = myDB.getYarn(i);
+        Yarn temp2 = myDB.getYarn(i + 1);
+
+        myDB.deleteYarn(temp);
+        myDB.deleteYarn(temp2);
+
+        temp.setId(i + 1); // Swap the IDs
+        temp2.setId(i);
+
+        myDB.addYarn(temp);
+        myDB.addYarn(temp2);
     }
 }
