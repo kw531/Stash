@@ -76,7 +76,7 @@ public class EditYarnActivity extends AppCompatActivity {
                             fiber.getText().toString(),
                             Double.parseDouble(balls.getText().toString()),
                             Double.parseDouble(balls.getText().toString())));
-                    Toast.makeText(EditYarnActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditYarnActivity.this, "Yarn successfully updated", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
                     Toast.makeText(EditYarnActivity.this, "You're missing something...", Toast.LENGTH_LONG).show();
