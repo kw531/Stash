@@ -33,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(listView);
         listView.setLongClickable(true);
 
-        // These are for testing purposes only, will be removed in final version
-        myDB.deleteAllYarn();
-        myDB.addYarn(new Yarn(0, "Red Heart", "Comfy", "Red", "100% Acrylic", 5.3, 400.0));
-        myDB.addYarn(new Yarn(1, "Baron", "Baby", "Blue", "100% Acrylic", 3, 400.0));
-        myDB.addYarn(new Yarn(2, "Knit Picks", "Lux", "Purple", "100% Silk", 2, 50));
         refreshDB();
     }
 
